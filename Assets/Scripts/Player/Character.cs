@@ -5,6 +5,8 @@ public class Character : MonoBehaviour
 {
     protected Movement movement;
 
+    public Movement Movement => movement;
+
     protected virtual void Awake()
     {
         movement = GetComponent<Movement>();

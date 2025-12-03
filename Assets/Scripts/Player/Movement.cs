@@ -22,11 +22,34 @@ public class Movement : MonoBehaviour
     [SerializeField] float dashTIme = .2f;
     float dashCounter;
 
+    [Header("Knockback")]
+    [SerializeField] float knockbackTime = .1f;
+    float knockbackCounter;
+    bool knockedBack;
+
+    Vector3 knockbackVector;
+
+    public Vector3 MoveDirection => moveDirection;
+
     public bool Dashing => dashing;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (knockedBack)
+        {
+            knockbackCounter += Time.deltaTime;
+
+            if (knockbackCounter >= knockbackTime)
+            {
+                knockedBack = false;
+                knockbackCounter = 0f;
+            }
+        }
     }
 
     public void DashCounter()
@@ -42,10 +65,12 @@ public class Movement : MonoBehaviour
 
     public void HandleMovement()
     {
-        if (!dashing)
-            NormalMovement();
-        else
+        if (dashing)
             DashMovement();
+        else if (knockedBack)
+            KnockbackMovement();
+        else
+            NormalMovement();
     }
 
     private void NormalMovement()
@@ -78,6 +103,11 @@ public class Movement : MonoBehaviour
         //Debug.Log("Speed: " + velocity.magnitude);
     }
 
+    private void KnockbackMovement()
+    {
+        //rb.AddForce(knockbackVector, ForceMode.Impulse);
+    }
+
     public void Move(Vector3 moveDirection)
     {
         this.moveDirection = moveDirection;
@@ -90,5 +120,15 @@ public class Movement : MonoBehaviour
         dashing = true;
         moveDirection = dashDir;
         Debug.Log("Dash Direction: " + dashDir);
+    }
+
+    public void Knockback(Vector3 knockbackVector)
+    {
+        if (knockedBack) return;
+
+        knockedBack = true;
+        this.knockbackVector = knockbackVector;
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(knockbackVector, ForceMode.Impulse);
     }
 }

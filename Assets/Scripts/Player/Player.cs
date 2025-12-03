@@ -4,9 +4,15 @@ using UnityEngine;
 public class Player : Character
 {
     PlayerCamera camera;
+    Pusher pusher;
 
     [SerializeField] GameObject arrow;
 
+    [Header("Knockback")]
+    [SerializeField] float knockbackForce = 25f;
+
+    public float KnockbackForce => knockbackForce;
+   
     protected override void Start()
     {
         base.Start();
@@ -16,6 +22,10 @@ public class Player : Character
         InputHandler.Instance.onDashPressed += OnAim;
         InputHandler.Instance.onDashReleased += OnDash;
         arrow.SetActive(false);
+
+        pusher = GetComponentInChildren<Pusher>();
+        pusher.SetPlayer(this);
+        pusher.gameObject.SetActive(false);
     }
 
     private void OnDisable()
@@ -31,6 +41,7 @@ public class Player : Character
         if (movement.Dashing)
         {
             movement.DashCounter();
+            pusher.gameObject.SetActive(true);
         }
         else
         {
@@ -42,13 +53,10 @@ public class Player : Character
             moveDirection.Normalize();
 
             movement.Move(moveDirection);
+
+            pusher.gameObject.SetActive(false);
         }
         
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
     }
 
     private void OnAim()
