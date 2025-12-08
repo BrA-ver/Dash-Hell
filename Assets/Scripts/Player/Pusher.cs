@@ -8,7 +8,7 @@ public class Pusher : MonoBehaviour
     {
         if (other.TryGetComponent(out Movement movement))
         {
-            Debug.Log("Movement");
+            //Debug.Log("Movement");
             Vector3 knockbackDirection = player.Movement.MoveDirection;
 
             //rb.linearVelocity = Vector3.zero;
@@ -17,7 +17,7 @@ public class Pusher : MonoBehaviour
         }
         else if (other.TryGetComponent(out Rigidbody rb))
         {
-            Debug.Log("Rigidbody");
+            //Debug.Log("Rigidbody");
             Vector3 knockbackDirection = rb.transform.position - transform.position;
             knockbackDirection.y = 0f;
             knockbackDirection.Normalize();

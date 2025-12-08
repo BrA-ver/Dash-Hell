@@ -5,6 +5,7 @@ public class LookAtMouse : MonoBehaviour
     Vector2 aim;
 
     [SerializeField] float rotationSpeed = 8f;
+    [SerializeField] PlayerCamera camera;
 
 
 
@@ -26,6 +27,7 @@ public class LookAtMouse : MonoBehaviour
             {
                 Vector3 point = ray.GetPoint(rayDistance);
                 LookAt(point);
+                camera.GetMousePoint(point);
                 Debug.DrawLine(ray.origin, ray.GetPoint(rayDistance));
             }
         }

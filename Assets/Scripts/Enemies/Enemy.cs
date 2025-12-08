@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Enemy : Character
 {
     Player player;
+    bool playerDied;
 
     [SerializeField] float rotationSpeed = 10f;
 
@@ -10,11 +12,24 @@ public class Enemy : Character
     {
         base.Start();
         player = FindFirstObjectByType<Player>();
+
+        GameEvents.Instance.OnPlayerDied.AddListener(OnPlayerDied);
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.Instance.OnPlayerDied.RemoveListener(OnPlayerDied);
     }
 
     protected override void Update()
     {
         base.Update();
+
+        if (playerDied)
+        {
+            // Stop Moving
+            return;
+        }
 
         Vector3 moveDirection = player.transform.position - transform.position;
         moveDirection.y = 0f;
@@ -33,5 +48,10 @@ public class Enemy : Character
 
         Quaternion lookRotation = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    private void OnPlayerDied()
+    {
+        playerDied = true;
     }
 }

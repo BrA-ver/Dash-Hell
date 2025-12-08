@@ -119,7 +119,7 @@ public class Movement : MonoBehaviour
 
         dashing = true;
         moveDirection = dashDir;
-        Debug.Log("Dash Direction: " + dashDir);
+        //Debug.Log("Dash Direction: " + dashDir);
     }
 
     public void Knockback(Vector3 knockbackVector)

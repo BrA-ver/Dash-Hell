@@ -11,6 +11,8 @@ public class Player : Character
     [Header("Knockback")]
     [SerializeField] float knockbackForce = 25f;
 
+    bool aiming;
+
     public float KnockbackForce => knockbackForce;
    
     protected override void Start()
@@ -26,7 +28,12 @@ public class Player : Character
         pusher = GetComponentInChildren<Pusher>();
         pusher.SetPlayer(this);
         pusher.gameObject.SetActive(false);
+
+        health.OnhealthChange.AddListener(OnHealthChange);
+        health.OnDied.AddListener(OnDied);
     }
+
+    
 
     private void OnDisable()
     {
@@ -55,19 +62,45 @@ public class Player : Character
             movement.Move(moveDirection);
 
             pusher.gameObject.SetActive(false);
+
+            if (!aiming)
+                camera.ResetOffset();
+        }
+
+        if (aiming)
+        {
+            camera.HandleAimOffset();
         }
         
     }
 
+    #region Input Events
     private void OnAim()
     {
         arrow.SetActive(true);
+        aiming = true;
     }
 
     private void OnDash()
     {
-        Debug.Log("Dash pressed");
+        //Debug.Log("Dash pressed");
         movement.Dash(transform.forward);
         arrow.SetActive(false);
+        aiming = false;
+        
     }
+    #endregion
+
+    #region Health Events
+    private void OnHealthChange()
+    {
+        
+    }
+
+    private void OnDied()
+    {
+        GameEvents.Instance.PlayerDied();
+        Destroy(gameObject);
+    }
+    #endregion
 }
