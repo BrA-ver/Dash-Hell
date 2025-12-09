@@ -16,7 +16,8 @@ public class KillPlane : MonoBehaviour
         else
         {
             Destroy(collision.collider.gameObject);
+            Instantiate(popParticle, collision.gameObject.transform.position, Quaternion.identity);
         }
-        Instantiate(popParticle, collision.gameObject.transform.position, Quaternion.identity);
+        
     }
 }

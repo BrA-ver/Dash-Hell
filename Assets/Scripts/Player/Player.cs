@@ -14,6 +14,8 @@ public class Player : Character
     bool aiming;
 
     public float KnockbackForce => knockbackForce;
+
+    
    
     protected override void Start()
     {
@@ -30,6 +32,7 @@ public class Player : Character
         pusher.gameObject.SetActive(false);
 
         health.OnhealthChange.AddListener(OnHealthChange);
+        health.OnTookDamage.AddListener(OnTookDamage);
         health.OnDied.AddListener(OnDied);
     }
 
@@ -92,15 +95,21 @@ public class Player : Character
     #endregion
 
     #region Health Events
-    private void OnHealthChange()
+    private void OnHealthChange(int currentHealth)
     {
-        
+        GameEvents.Instance.PlayerHealthChanged(currentHealth);
+    }
+
+    private void OnTookDamage()
+    {
+        GameEvents.Instance.PlayerTookDamage();
     }
 
     private void OnDied()
     {
         GameEvents.Instance.PlayerDied();
         Destroy(gameObject);
+        
     }
     #endregion
 }
