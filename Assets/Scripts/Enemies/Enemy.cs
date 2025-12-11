@@ -14,6 +14,8 @@ public class Enemy : Character
         player = FindFirstObjectByType<Player>();
 
         GameEvents.Instance.OnPlayerDied.AddListener(OnPlayerDied);
+
+        health.OnDied.AddListener(OnDied);
     }
 
     private void OnDestroy()
@@ -54,4 +56,11 @@ public class Enemy : Character
     {
         playerDied = true;
     }
+
+    #region Health Events
+    protected virtual void OnDied()
+    {
+        Destroy(gameObject);
+    }
+    #endregion
 }

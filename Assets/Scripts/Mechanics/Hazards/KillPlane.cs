@@ -6,8 +6,6 @@ public class KillPlane : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Hit");
-        Destroy(collision.collider.gameObject);
 
         if (collision.transform.TryGetComponent(out Health health))
         {

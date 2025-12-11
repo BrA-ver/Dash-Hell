@@ -5,11 +5,15 @@ public class Player : Character
 {
     PlayerCamera camera;
     Pusher pusher;
+    PlayerHealth playerHealth;
 
     [SerializeField] GameObject arrow;
 
     [Header("Knockback")]
     [SerializeField] float knockbackForce = 25f;
+
+    [Header("Dash")]
+    [SerializeField, Range(0f, 5f)] float dashInvincibility = 2f;
 
     bool aiming;
 
@@ -31,9 +35,13 @@ public class Player : Character
         pusher.SetPlayer(this);
         pusher.gameObject.SetActive(false);
 
+        health = health as PlayerHealth;
+
         health.OnhealthChange.AddListener(OnHealthChange);
         health.OnTookDamage.AddListener(OnTookDamage);
         health.OnDied.AddListener(OnDied);
+
+        playerHealth = health as PlayerHealth;
     }
 
     
@@ -90,7 +98,7 @@ public class Player : Character
         movement.Dash(transform.forward);
         arrow.SetActive(false);
         aiming = false;
-        
+        playerHealth.MakeInvincible(dashInvincibility);
     }
     #endregion
 

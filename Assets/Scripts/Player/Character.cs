@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
     protected Health health;
 
     public Movement Movement => movement;
+    public Health Health => health;
 
     protected virtual void Awake()
     {

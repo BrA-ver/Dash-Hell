@@ -20,6 +20,8 @@ public class Health : MonoBehaviour
         OnhealthChange?.Invoke(currentHealth);
     }
 
+    protected virtual void Update(){}
+
     public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
