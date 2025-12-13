@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 466223052086237861}
   - component: {fileID: 6194194133822929843}
   - component: {fileID: 6680290356623947374}
+  - component: {fileID: 7004705146808493643}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -150,7 +151,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   maxSpeed: 4
   moveForce: 20
+  gravityBoost: 50
   dashSpeed: 25
   dashForce: 25
   dashTIme: 0.2
@@ -245,6 +247,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   damage: 1
   <TargetType>k__BackingField: 0
+--- !u!114 &7004705146808493643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869642169878341686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06518545d634ba14db8e1c32744a69db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundDetector
+  radius: 0.2
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &3911639076623422241
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,10 @@ public class Player : Character
     [Header("Dash")]
     [SerializeField, Range(0f, 5f)] float dashInvincibility = 2f;
 
+    [Header("Fall Delay")]
+    [SerializeField] float fallDelay = 2f;
+    float fallCounter;
+
     bool aiming;
 
     public float KnockbackForce => knockbackForce;
@@ -90,6 +94,8 @@ public class Player : Character
     {
         arrow.SetActive(true);
         aiming = true;
+
+        AudioManager.Instance?.PlaySFX("Aim");
     }
 
     private void OnDash()
@@ -99,6 +105,8 @@ public class Player : Character
         arrow.SetActive(false);
         aiming = false;
         playerHealth.MakeInvincible(dashInvincibility);
+
+        AudioManager.Instance?.PlaySFX("Dash");
     }
     #endregion
 
@@ -111,6 +119,8 @@ public class Player : Character
     private void OnTookDamage()
     {
         GameEvents.Instance.PlayerTookDamage();
+
+        AudioManager.Instance?.PlaySFX("Take Damage");
     }
 
     private void OnDied()
@@ -120,4 +130,21 @@ public class Player : Character
         
     }
     #endregion
+
+    protected override void BoostGravityWhenOffGround()
+    {
+        Debug.Log(groundDetector.OnGround);
+        if (!groundDetector.OnGround)
+        {
+            fallCounter -= Time.deltaTime;
+            if (fallCounter <= 0f)
+            {
+                movement.BoostGravity();
+            }
+        }
+        else
+        {
+            fallCounter = fallDelay;
+        }
+    }
 }

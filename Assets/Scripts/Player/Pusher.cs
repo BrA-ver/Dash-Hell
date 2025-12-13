@@ -26,6 +26,8 @@ public class Pusher : MonoBehaviour
 
             rb.AddForce(knockbackDirection * player.KnockbackForce, ForceMode.Impulse);
         }
+
+        AudioManager.Instance?.PlaySFX("Impact");
     }
 
 

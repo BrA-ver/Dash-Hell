@@ -15,8 +15,6 @@ public class WaveManager : MonoBehaviour
     private void Start()
     {
         GetChildrenAsWaves();
-
-        StartBattle();
     }
 
     private void OnDisable()
@@ -46,6 +44,7 @@ public class WaveManager : MonoBehaviour
         StartWave();
 
         battleStarted = true;
+        OnBattleStarted?.Invoke();
     }
 
     private void StartWave()

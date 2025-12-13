@@ -5,8 +5,10 @@ public class GameEvents : Singleton<GameEvents>
 {
     public UnityEvent OnPlayerDied;
     public UnityEvent OnPlayerTookDamage;
-    public UnityEvent OnGameOver;
     public UnityEvent<int> OnPlayerHealthChanged;
+
+    public UnityEvent OnGameOver;
+    public UnityEvent OnVictory;
 
     public void PlayerDied()
     {
@@ -16,6 +18,11 @@ public class GameEvents : Singleton<GameEvents>
     public void GameOver()
     {
         OnGameOver?.Invoke();
+    }
+
+    public void Victory()
+    {
+        OnVictory?.Invoke();
     }
 
     public void PlayerHealthChanged(int currentHealth)

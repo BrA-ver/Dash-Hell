@@ -14,6 +14,10 @@ public class Movement : MonoBehaviour
     [SerializeField] protected float maxSpeed = 8f;
     [SerializeField] protected float moveForce = 100f;
 
+    [Header("Gravity Boost")]
+    [SerializeField] [Tooltip("Only applied when the character is not on the ground")]
+    protected float gravityBoost = 50f; 
+
     [Header("Dash")]
     [SerializeField] protected float dashSpeed = 25f;
     [SerializeField] protected float dashForce = 25f;
@@ -130,5 +134,10 @@ public class Movement : MonoBehaviour
         this.knockbackVector = knockbackVector;
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(knockbackVector, ForceMode.Impulse);
+    }
+
+    public void BoostGravity()
+    {
+        rb.AddForce(Vector3.down * gravityBoost);
     }
 }
