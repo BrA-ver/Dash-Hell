@@ -5,7 +5,9 @@ public class Hurtbox : MonoBehaviour
     [SerializeField] int damage;
     [field: SerializeField] public HitboxType TargetType { get; private set; }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void Start(){}
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
         Debug.Log("Hit");
         if (other.TryGetComponent(out Hitbox hitbox))

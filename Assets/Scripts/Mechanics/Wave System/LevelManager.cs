@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
         }
 
         AudioManager.Instance.PlayMusic("Level");
+        GameManager.Instance.PlayerDied = false;
     }
 
     private void OnBattleEnded()

@@ -15,10 +15,16 @@ public class Wave : MonoBehaviour
 
     int deadEnemies = 0;
     bool waveStarted = false;
+    bool playerDied;
 
     private void Awake()
     {
         GetAllChildrenAsEnemies();
+    }
+
+    private void Start()
+    {
+        GameEvents.Instance.OnPlayerDied.AddListener(OnPlayerDied);
     }
 
     private void OnDestroy()
@@ -32,6 +38,8 @@ public class Wave : MonoBehaviour
 
     public void StartWave()
     {
+        if (playerDied) return;
+
         waveStarted = true;
         StartCoroutine(SpawnEnemiesRoutine());
     }
@@ -64,6 +72,7 @@ public class Wave : MonoBehaviour
             {
                 enemies.Add(enemy);
                 enemy.GetComponent<Health>().OnDied.AddListener(OnEnemyDied);
+                Debug.Log("Add");
             }
         }
     }
@@ -79,4 +88,12 @@ public class Wave : MonoBehaviour
             waveStarted = false;
         }
     }
+
+    #region Game Events
+    void OnPlayerDied()
+    {
+        playerDied = true;
+        StopCoroutine(SpawnEnemiesRoutine());
+    }
+    #endregion
 }

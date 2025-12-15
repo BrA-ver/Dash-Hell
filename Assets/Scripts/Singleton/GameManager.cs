@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Player Death")]
     [SerializeField] float waitAfterDeath = 1f;
     bool handlingDeath;
+    public bool PlayerDied { get; set; }
 
     [SerializeField] string mainMenu = "MainMenu";
 
@@ -27,6 +28,7 @@ public class GameManager : Singleton<GameManager>
         if (handlingDeath) return;
         handlingDeath = true;
         StartCoroutine(playerDeathRoutine());
+        PlayerDied = true;
     }
 
     IEnumerator playerDeathRoutine()

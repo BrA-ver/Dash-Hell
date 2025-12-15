@@ -40,5 +40,6 @@ public class Health : MonoBehaviour
         OnhealthChange?.Invoke(currentHealth);
         OnDied?.Invoke();
         Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Debug.Log("Die");
     }
 }

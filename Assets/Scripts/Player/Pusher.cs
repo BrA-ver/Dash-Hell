@@ -6,6 +6,8 @@ public class Pusher : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<Bullet>()) return;
+
         if (other.TryGetComponent(out Movement movement))
         {
             //Debug.Log("Movement");

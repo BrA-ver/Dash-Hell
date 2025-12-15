@@ -4,7 +4,6 @@ using UnityEngine;
 public class Enemy : Character
 {
     Player player;
-    bool playerDied;
 
     [SerializeField] float rotationSpeed = 10f;
 
@@ -12,21 +11,19 @@ public class Enemy : Character
     {
         base.Start();
         player = FindFirstObjectByType<Player>();
-
-        GameEvents.Instance.OnPlayerDied.AddListener(OnPlayerDied);
-
         health.OnDied.AddListener(OnDied);
     }
 
     private void OnDestroy()
     {
-        GameEvents.Instance.OnPlayerDied.RemoveListener(OnPlayerDied);
+        health.OnDied.RemoveListener(OnDied);
     }
 
     protected override void Update()
     {
         base.Update();
 
+        bool playerDied = GameManager.Instance.PlayerDied;
         if (playerDied)
         {
             // Stop Moving
@@ -50,11 +47,6 @@ public class Enemy : Character
 
         Quaternion lookRotation = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-    }
-
-    private void OnPlayerDied()
-    {
-        playerDied = true;
     }
 
     #region Health Events
