@@ -1,10 +1,27 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager instance;
+
     [SerializeField] WaveManager[] waveManagers;
     int completeBattles;
+
+    float levelTime = 0f;
+    LevelTimer levelTimer;
+    bool levelComplete;
+
+    [Header("Levels")]
+    [SerializeField] string nextLevel;
+
+    public float LevelTime => levelTime;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -18,6 +35,13 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.PlayerDied = false;
     }
 
+    private void Update()
+    {
+        if (levelComplete) return;
+        levelTime += Time.deltaTime;
+        levelTimer.DisplayTime(levelTime);
+    }
+
     private void OnBattleEnded()
     {
         completeBattles++;
@@ -25,6 +49,22 @@ public class LevelManager : MonoBehaviour
         if (completeBattles >= waveManagers.Length)
         {
             GameEvents.Instance.Victory();
+            levelComplete = true;
         }
+    }
+
+    public void SetLevelTimer(LevelTimer timer)
+    {
+        levelTimer = timer;
+    }
+
+    public void NextLevel()
+    {
+        GameManager.Instance.LoadLevel(nextLevel);
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

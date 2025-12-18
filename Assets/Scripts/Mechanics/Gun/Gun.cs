@@ -72,7 +72,7 @@ public class Gun : MonoBehaviour
             float currentAngle = angleStep * i;
             float angle = targetAngle - currentAngle + centerOffset;
             Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
-            Rigidbody newBullet = Instantiate(projectilePrefab, transform.position, rotation);
+            Rigidbody newBullet = Instantiate(projectilePrefab, shootPoint.position, rotation);
             newBullet.AddForce(newBullet.transform.forward * shootForce, ForceMode.Impulse);
             //newBullet.transform.right = direction;
         }

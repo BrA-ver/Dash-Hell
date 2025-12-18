@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    Player player;
+    protected Player player;
 
-    [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] protected float rotationSpeed = 10f;
 
     protected override void Start()
     {
@@ -23,6 +23,11 @@ public class Enemy : Character
     {
         base.Update();
 
+        HandleMovement();
+    }
+
+    protected virtual void HandleMovement()
+    {
         bool playerDied = GameManager.Instance.PlayerDied;
         if (playerDied)
         {
@@ -39,7 +44,7 @@ public class Enemy : Character
         LookAt(player.transform.position);
     }
 
-    private void LookAt(Vector3 point)
+    protected void LookAt(Vector3 point)
     {
         Vector3 hieghtCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
         Vector3 lookDir = hieghtCorrectedPoint - transform.position;

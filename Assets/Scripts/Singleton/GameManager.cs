@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     bool handlingDeath;
     public bool PlayerDied { get; set; }
 
+
     [SerializeField] string mainMenu = "MainMenu";
 
     private void Start()
@@ -42,5 +43,10 @@ public class GameManager : Singleton<GameManager>
     public void MainMenu()
     {
         SceneManager.LoadScene(mainMenu);
+    }
+
+    public void LoadLevel(string level)
+    {
+        SceneManager.LoadScene(level);
     }
 }
